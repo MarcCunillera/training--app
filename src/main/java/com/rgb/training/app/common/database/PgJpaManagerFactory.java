@@ -16,10 +16,10 @@ import java.util.Map;
 public class PgJpaManagerFactory implements Serializable {
 
     private static final long serialVersionUID = 2023060720230607L;
-    private EntityManagerFactory dbFactory;
     private final static PgJpaManagerFactory instance = new PgJpaManagerFactory();
     private final String persistenceXml = "META-INF/persistence.xml";
-    private final String puName = "pgxapool";
+    private final String puName = "testdbd";
+    private EntityManagerFactory dbFactory = null;
 
     private PgJpaManagerFactory() {
         if (instance != null) {
@@ -69,6 +69,8 @@ public class PgJpaManagerFactory implements Serializable {
 
     public static EntityManager getEntityManager() {
         try {
+            //Class.forName("org.postgresql.Driver");
+            //Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testdb", "luiscarlosgonzalez", "postgres");
             return getInstance().getDbFactory().createEntityManager();
         } catch (Exception e) {
             System.out.println(e.getMessage());

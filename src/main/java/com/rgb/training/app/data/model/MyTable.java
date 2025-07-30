@@ -19,10 +19,10 @@ import java.util.Date;
 
 /**
  *
- * @author nozarashi
+ * @author LuisCarlosGonzalez
  */
 @Entity
-@Table(name = "my_table", catalog = "testdb", schema = "public")
+@Table(name = "my_table")
 @XmlType(name = "MyTable")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MyTable implements Serializable {
@@ -33,17 +33,21 @@ public class MyTable implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Long id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "name", nullable = false, length = 255)
     private String name;
+    
     @Column(name = "birthdate")
     @Temporal(TemporalType.DATE)
     private Date birthdate;
+    
     @Size(max = 255)
     @Column(name = "address", length = 255)
     private String address;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "enabled", nullable = false)

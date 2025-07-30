@@ -25,6 +25,12 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <version>9.1.0</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Jakarta JPA -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -71,6 +77,20 @@
             <version>2.3</version>
             <scope>provided</scope>
         </dependency>
+        <!-- WS-API -->
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.5</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -83,6 +103,20 @@
                     <compilerArgs>
                         <args>-Djava.endorsed.dirs=${endorsed.dir}</args>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <!-- Include Jakarta JSON-B API -->
+                        <path>
+                            <groupId>jakarta.json.bind</groupId>
+                            <artifactId>jakarta.json.bind-api</artifactId>
+                            <version>2.0.0</version> <!-- Adjust version as needed -->
+                        </path>
+                        <!-- Include Jakarta JSON-B implementation -->
+                        <path>
+                            <groupId>org.eclipse</groupId>
+                            <artifactId>yasson</artifactId>
+                            <version>2.0.4</version> <!-- Adjust version as needed -->
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <plugin>

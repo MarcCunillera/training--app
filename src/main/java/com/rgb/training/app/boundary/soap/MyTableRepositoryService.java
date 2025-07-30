@@ -2,7 +2,7 @@ package com.rgb.training.app.boundary.soap;
 
 import com.rgb.training.app.boundary.soap.parm.MyTableList;
 import com.rgb.training.app.data.model.MyTable;
-import com.rgb.training.app.data.repository.MyTableRepository;
+import com.rgb.training.app.data.repository.MyTableJTARepository;
 import com.sun.xml.ws.security.opt.impl.outgoing.SecurityHeader;
 import jakarta.inject.Inject;
 import jakarta.jws.WebMethod;
@@ -18,7 +18,7 @@ import java.util.List;
 public class MyTableRepositoryService {
 
     @Inject
-    private MyTableRepository myTableRepo;
+    private MyTableJTARepository myTableRepo;
 
     @WebMethod(operationName = "getById")
     public MyTable getById(@WebParam(name = "id") Long id) {

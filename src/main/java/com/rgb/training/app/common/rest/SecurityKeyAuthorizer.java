@@ -17,22 +17,29 @@ import java.io.IOException;
 public class SecurityKeyAuthorizer implements ContainerRequestFilter {
 
     public static final String AUTHENTICATION_HEADER = "Authorization";
-    public static final String AUTH_KEY = "3U5BdXDUH43yqWwgz7QzYQTd1ePUmM5QCnEqRlrBkYqtkKNK0zxR0DGfc87Zau4i";
+    public static final String AUTH_KEY;
+
+    static {
+        // Generar un token aleatorio seguro al iniciar la aplicación
+        AUTH_KEY = java.util.UUID.randomUUID().toString();
+        System.out.println("🔐 AUTH_KEY generado dinámicamente: " + AUTH_KEY);
+    }
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Boolean authorized = Boolean.FALSE;
         String authToken = requestContext.getHeaderString(AUTHENTICATION_HEADER);
+
         if (requestContext.getRequest().getMethod().equals("OPTIONS") || requestContext.getRequest().getMethod().equals("HEAD")) {
             requestContext.abortWith(Response.status(Response.Status.OK).build());
             return;
         }
+
         if (authToken != null) {
             authorized = AUTH_KEY.equals(authToken);
-        } else {
-            authorized = Boolean.FALSE;
         }
-        if (Boolean.FALSE.equals(authorized)) {
+
+        if (!authorized) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }
     }

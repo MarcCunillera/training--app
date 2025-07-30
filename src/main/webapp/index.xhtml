@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Main Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </h:head>
+    <h:body>
+        <h1>TRAINING APP</h1>
+        <br/><br/>
+
+        <h:form>
+            <h:outputLabel value="Text: " for="text" />
+            <h:inputText id="text" value="#{testViewBean.text}" />
+            <h:commandButton value="Text+Extra" action="#{testViewBean.getTextWithExtra()}" />
+            <br/><br/>
+            <h:outputText value="#{testViewBean.getTextWithExtra()}" />
+        </h:form>
+        
+        <a href="url" target="_blank"></a>
+    </h:body>
+</html>
