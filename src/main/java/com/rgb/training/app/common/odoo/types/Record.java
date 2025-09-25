@@ -1,15 +1,11 @@
 package com.rgb.training.app.common.odoo.types;
 
-import com.rgb.training.app.common.odoo.types.Record;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Odoo Record from row.
- */
 public class Record extends HashMap<Object, Object> {
 
     private static final long serialVersionUID = 1L;
@@ -22,9 +18,9 @@ public class Record extends HashMap<Object, Object> {
 
     public static Record fromMap(Map<?, ?> row) {
         Record record = new Record();
-        row.forEach((key, value) -> {
-            record.put(key, value);
-        });
+        if (row != null) {
+            row.forEach(record::put);
+        }
         return record;
     }
 
@@ -36,7 +32,7 @@ public class Record extends HashMap<Object, Object> {
 
     public Boolean isNull(Object key) {
         Object value = get(key);
-        return value == null || (value.getClass() == Boolean.class && !(Boolean) value);
+        return value == null || (value instanceof Boolean && !(Boolean) value);
     }
 
     public String getString(Object key) {
@@ -48,49 +44,52 @@ public class Record extends HashMap<Object, Object> {
             try {
                 return new SimpleDateFormat(ODOO_DATE_FORMAT).parse(get(key).toString());
             } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
         return null;
     }
 
     public Double getDouble(Object key) {
-        return (Double) get(key);
+        Object value = get(key);
+        return value instanceof Double ? (Double) value : null;
     }
 
     public Integer getInteger(Object key) {
-        return (Integer) get(key);
+        Object value = get(key);
+        return value instanceof Integer ? (Integer) value : null;
     }
 
     // Many2One
     public Integer getId(Object key) {
         Object value = get(key);
-        if (value.getClass() == Object[].class) {
+        if (value instanceof Object[]) {
             Object[] id = (Object[]) value;
-            if (id.length == 2 && id[0] instanceof Integer) {
+            if (id.length >= 1 && id[0] instanceof Integer) {
                 return (Integer) id[0];
             }
         }
-        return null; // default to null
+        return null;
     }
 
     public String getIdName(Object key) {
         Object value = get(key);
-        if (value.getClass() == Object[].class) {
+        if (value instanceof Object[]) {
             Object[] id = (Object[]) value;
-            if (id.length == 2 && id[1] instanceof String) {
+            if (id.length >= 2 && id[1] instanceof String) {
                 return (String) id[1];
             }
         }
-        return null; // default null
+        return null;
     }
 
     // One2Many & Many2Many
     public Integer[] getIds(Object key) {
         Object values = get(key);
-        if (values.getClass() == Object[].class) {
+        if (values instanceof Object[]) {
             return buildIds((Object[]) values);
         }
-        return new Integer[]{}; // Empty list
+        return new Integer[0];
     }
 
     private Integer[] buildIds(Object[] values) {
@@ -98,9 +97,22 @@ public class Record extends HashMap<Object, Object> {
         for (int i = 0; i < values.length; i++) {
             if (values[i] instanceof Integer) {
                 ids[i] = (Integer) values[i];
+            } else {
+                ids[i] = null;
             }
         }
         return ids;
+    }
+
+    // ✅ Implementació correcta de getFields()
+    public HashMap<String, Object> getFields() {
+        HashMap<String, Object> result = new HashMap<>();
+        for (Map.Entry<Object, Object> entry : this.entrySet()) {
+            if (entry.getKey() != null) {
+                result.put(entry.getKey().toString(), entry.getValue());
+            }
+        }
+        return result;
     }
 
 }

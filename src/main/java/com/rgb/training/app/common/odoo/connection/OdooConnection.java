@@ -4,6 +4,8 @@ import com.rgb.training.app.common.odoo.types.Recordset;
 import com.rgb.training.app.common.odoo.types.Values;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -26,7 +28,7 @@ public class OdooConnection {
     public OdooConnection() {
 
     }
-
+    
     public OdooConnection(String url, String db, String uid, String pwd) throws MalformedURLException {
 
         //odoo
@@ -158,4 +160,27 @@ public class OdooConnection {
         return ids;
     }
 
+    public boolean unlink(String model, List<Integer> ids) throws Exception {
+        if (ids == null || ids.isEmpty()) {
+            return false;
+        }
+
+        // Execute the unlink method
+        Object result = objectClient.execute("execute_kw", Arrays.asList(
+                db,
+                uid,
+                pwd,
+                model,
+                "unlink",
+                Arrays.asList(ids)
+        ));
+
+        if (result instanceof Boolean) {
+            return (Boolean) result;
+        } else {
+            throw new Exception("Resposta inesperada de Odoo al eliminar: " + result);
+        }
+    }
 }
+
+

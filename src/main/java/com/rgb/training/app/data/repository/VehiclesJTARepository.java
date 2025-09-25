@@ -20,7 +20,7 @@ public class VehiclesJTARepository {
     public VehiclesJTARepository() {
     }
 
-    public Vehicles get(Long entryId) {
+    public Vehicles get(Integer entryId) {
         Vehicles result = null;
         try {
             result = entityManager.createQuery("SELECT v FROM Vehicles v WHERE v.id = :entryId", Vehicles.class)
@@ -81,8 +81,8 @@ public class VehiclesJTARepository {
         return entry;
     }
 
-    public Long delete(Long entryId) {
-        Long result = -1L;
+    public Integer delete(Integer entryId) {
+        Integer result = -1;
         try {
             Vehicles reference = entityManager.getReference(Vehicles.class, entryId);
             if (reference != null) {

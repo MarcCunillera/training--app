@@ -1,40 +1,20 @@
 package com.rgb.training.app.boundary.rest;
 
-import com.rgb.training.app.common.rest.RestServiceLog;
-import com.rgb.training.app.common.rest.SecurityKeyAuth;
 import com.rgb.training.app.data.model.MarcaVehicle;
 import com.rgb.training.app.data.repository.MarcaVehicleJTARepository;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.HEAD;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-/**
- * REST Client: http://localhost:8081/training-app/api/jta/MarcaVehicles/
- *
- * @author LuisCarlosGonzalez
- */
 @Path("jta/marcavehicle")
 @Produces(MediaType.APPLICATION_JSON)
-@SecurityKeyAuth
-@RestServiceLog
 public class MarcaVehiclesJTARepositoryResource {
 
     @Inject
     private MarcaVehicleJTARepository marcaRepo;
-    
+
     @HEAD
     public Response headDefault() {
         return Response.status(Response.Status.OK).build();
@@ -43,15 +23,15 @@ public class MarcaVehiclesJTARepositoryResource {
     @GET
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @SecurityKeyAuth
-    public Response get(@PathParam("id") Long id) {
+    public Response get(@PathParam("id") Integer id) {
         MarcaVehicle result = marcaRepo.get(id);
         return Response.ok(result).build();
     }
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAll(@QueryParam(value = "offset") Integer offset, @QueryParam(value = "max-results") Integer maxResults) {
+    public Response getAll(@QueryParam(value = "offset") Integer offset,
+                           @QueryParam(value = "max-results") Integer maxResults) {
         List<MarcaVehicle> results = marcaRepo.getAll(offset, maxResults);
         return Response.ok(results).build();
     }
@@ -81,8 +61,8 @@ public class MarcaVehiclesJTARepositoryResource {
     @DELETE
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") Long id) {
-        Long deleted = marcaRepo.delete(id);
+    public Response delete(@PathParam("id") Integer id) {
+        Integer deleted = marcaRepo.delete(id);
         if (deleted > 0) {
             return Response.ok(id).build();
         }

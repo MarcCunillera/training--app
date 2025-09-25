@@ -2,6 +2,7 @@ package com.rgb.training.app.data.repository;
 
 import com.rgb.training.app.data.model.ModelVehicles;
 import jakarta.annotation.PreDestroy;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -11,6 +12,8 @@ import java.util.List;
  *
  * @author marccunillera
  */
+
+@Stateless
 public class ModelVehicleJTARepository {
     
     @PersistenceContext(unitName = "testdbd")
@@ -19,7 +22,7 @@ public class ModelVehicleJTARepository {
     public ModelVehicleJTARepository() {
     }
 
-    public ModelVehicles get(Long entryId) {
+    public ModelVehicles get(Integer entryId) {
         ModelVehicles result = null;
         try {
             result = (ModelVehicles) entityManager.createQuery("SELECT mv FROM ModelVehicles mv WHERE mv.id = :entryId")
@@ -48,6 +51,22 @@ public class ModelVehicleJTARepository {
             ex.printStackTrace();
         }
         return results;
+    }
+
+    // 🔹 Afegim el mètode que et falta
+    public ModelVehicles getByName(String modelName) {
+        ModelVehicles result = null;
+        try {
+            result = entityManager.createQuery(
+                            "SELECT mv FROM ModelVehicles mv WHERE mv.modelName = :modelName",
+                            ModelVehicles.class)
+                    .setParameter("modelName", modelName)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            System.err.println("No s'ha trobat cap Model amb modelName=" + modelName);
+        }
+        return result;
     }
 
     public ModelVehicles create(ModelVehicles entry) {
@@ -80,8 +99,8 @@ public class ModelVehicleJTARepository {
         return entry;
     }
 
-    public Long delete(Long entryId) {
-        Long result = -1L;
+    public Integer delete(Integer entryId) {
+        Integer result = -1;
         try {
             ModelVehicles reference = entityManager.getReference(ModelVehicles.class, entryId);
             if (reference != null) {

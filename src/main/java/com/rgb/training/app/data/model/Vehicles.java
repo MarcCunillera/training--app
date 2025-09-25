@@ -26,12 +26,12 @@ import java.io.Serializable;
 @XmlRootElement
 public class Vehicles implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final int serialVersionUID = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Long id;
+    private Integer id;
     
     @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
@@ -44,15 +44,15 @@ public class Vehicles implements Serializable {
     public Vehicles() {
     }
 
-    public Vehicles(Long id) {
+    public Vehicles(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

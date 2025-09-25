@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 @SecurityKeyAuth
 @Provider
-@Priority(value = 100)
+@Priority(value = 150)
 public class SecurityKeyAuthorizer implements ContainerRequestFilter {
 
     public static final String AUTHENTICATION_HEADER = "Authorization";

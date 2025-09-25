@@ -31,12 +31,12 @@ import java.util.Collection;
 @XmlRootElement
 public class MarcaVehicle implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final int serialVersionUID = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Long id;
+    private Integer id;
     
     @Basic(optional = false)
     @NotNull
@@ -57,20 +57,20 @@ public class MarcaVehicle implements Serializable {
     public MarcaVehicle() {
     }
 
-    public MarcaVehicle(Long id) {
+    public MarcaVehicle(Integer id) {
         this.id = id;
     }
 
-    public MarcaVehicle(Long id, String brandName) {
+    public MarcaVehicle(Integer id, String brandName) {
         this.id = id;
         this.brandName = brandName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

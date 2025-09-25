@@ -44,7 +44,7 @@ public class VehiclesJTARepositoryResource {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @SecurityKeyAuth
-    public Response get(@PathParam("id") Long id) {
+    public Response get(@PathParam("id") Integer id) {
         Vehicles result = VehiclesRepo.get(id);
         return Response.ok(result).build();
     }
@@ -81,8 +81,8 @@ public class VehiclesJTARepositoryResource {
     @DELETE
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") Long id) {
-        Long deleted = VehiclesRepo.delete(id);
+    public Response delete(@PathParam("id") Integer id) {
+        Integer deleted = VehiclesRepo.delete(id);
         if (deleted > 0) {
             return Response.ok(id).build();
         }

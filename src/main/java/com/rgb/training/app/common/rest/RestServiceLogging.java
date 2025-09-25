@@ -28,7 +28,7 @@ import java.util.Date;
  */
 @RestServiceLog
 @Provider
-@Priority(value = 150)
+@Priority(value = 100)
 public class RestServiceLogging implements ContainerRequestFilter, ContainerResponseFilter {
 
     @Context

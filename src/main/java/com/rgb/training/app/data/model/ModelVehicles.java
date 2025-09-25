@@ -33,12 +33,12 @@ import java.util.Collection;
 @XmlRootElement
 public class ModelVehicles implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final int serialVersionUID = 1;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
-    private Long id;
+    private Integer id;
     
     @Basic(optional = false)
     @NotNull
@@ -58,20 +58,20 @@ public class ModelVehicles implements Serializable {
     public ModelVehicles() {
     }
 
-    public ModelVehicles(Long id) {
+    public ModelVehicles(Integer id) {
         this.id = id;
     }
 
-    public ModelVehicles(Long id, String modelName) {
+    public ModelVehicles(Integer id, String modelName) {
         this.id = id;
         this.modelName = modelName;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

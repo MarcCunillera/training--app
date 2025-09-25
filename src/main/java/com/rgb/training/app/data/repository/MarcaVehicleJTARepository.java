@@ -1,37 +1,29 @@
 package com.rgb.training.app.data.repository;
 
 import com.rgb.training.app.data.model.MarcaVehicle;
-import jakarta.annotation.PreDestroy;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author marccunillera
- */
 @Stateless
 public class MarcaVehicleJTARepository {
-        @PersistenceContext(unitName = "testdbd")
+
+    @PersistenceContext(unitName = "testdbd")
     private EntityManager entityManager;
 
-    public MarcaVehicleJTARepository() {
-    }
-
-    public MarcaVehicle get(Long entryId) {
-        MarcaVehicle result = null;
+    public MarcaVehicle get(Integer entryId) {
         try {
-            result = (MarcaVehicle)entityManager.createQuery("SELECT mv FROM MarcaVehicle mv WHERE mv.id = :entryId")
-                    .setParameter("entryId", entryId)
-                    .getSingleResult();
+            return entityManager.createQuery(
+                    "SELECT mv FROM MarcaVehicle mv WHERE mv.id = :entryId", 
+                    MarcaVehicle.class)
+                .setParameter("entryId", entryId)
+                .getSingleResult();
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-        return result;
     }
 
     public List<MarcaVehicle> getAll() {
@@ -43,66 +35,71 @@ public class MarcaVehicleJTARepository {
         offset = offset == null ? 0 : offset;
         maxResults = maxResults == null ? 500 : maxResults;
         try {
-            results = entityManager.createQuery("SELECT mv FROM MarcaVehicle mv ORDER BY mv.id")
-                    .setFirstResult(offset)
-                    .setMaxResults(maxResults)
-                    .getResultList();
+            results = entityManager.createQuery(
+                    "SELECT mv FROM MarcaVehicle mv ORDER BY mv.id", 
+                    MarcaVehicle.class)
+                .setFirstResult(offset)
+                .setMaxResults(maxResults)
+                .getResultList();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return results;
     }
-    
+
+    public MarcaVehicle getByName(String brandName) {
+        try {
+            return entityManager.createQuery(
+                    "SELECT mv FROM MarcaVehicle mv WHERE mv.brandName = :brandName",
+                    MarcaVehicle.class)
+                .setParameter("brandName", brandName)
+                .setMaxResults(1)
+                .getSingleResult();
+        } catch (Exception ex) {
+            System.err.println("⚠ No s'ha trobat cap Marca amb brandName=" + brandName);
+            return null;
+        }
+    }
+
     public MarcaVehicle create(MarcaVehicle entry) {
         try {
-            entityManager.joinTransaction();
             entityManager.persist(entry);
+            return entry;
         } catch (Exception ex) {
             System.err.println("Error a create(): " + ex.getMessage());
             ex.printStackTrace();
             return null;
         }
-        return entry;
     }
 
     public MarcaVehicle update(MarcaVehicle entry) {
         try {
-            entityManager.joinTransaction();
-            entry = entityManager.merge(entry);
+            return entityManager.merge(entry);
         } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-        return entry;
     }
 
     public MarcaVehicle delete(MarcaVehicle entry) {
         try {
-            entityManager.remove(entry);
+            MarcaVehicle managed = entityManager.merge(entry); // assegurar que està gestionat
+            entityManager.remove(managed);
+            return entry;
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-        return entry;
-    }
-
-    public Long delete(Long entryId) {
-        Long result = -1L;
-        try {
-            MarcaVehicle reference = entityManager.getReference(MarcaVehicle.class, entryId);
-            if (reference != null) {
-                entityManager.remove(reference);
-                result = entryId;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return result;
-    }
-
-    @PreDestroy
-    public void close() {
-        if (this.entityManager != null) {
-            this.entityManager.close();
+            return null;
         }
     }
+    
+    public Integer delete(Integer entryId) { 
+        try { MarcaVehicle reference = entityManager.getReference(MarcaVehicle.class, entryId); 
+        entityManager.remove(reference); 
+        return entryId; 
+    } catch (Exception ex) { 
+        ex.printStackTrace(); 
+        return -1; 
+    } 
+  }
 }
 
