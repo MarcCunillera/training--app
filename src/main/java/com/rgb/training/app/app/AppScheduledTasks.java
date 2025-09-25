@@ -23,7 +23,7 @@ public class AppScheduledTasks {
     private Odoo2JavaSyncController odoo2JavaSync;
 
     /**
-     * Sincronización automática cada 5 minutos.
+     * Sincronización automática cada 30 segons.
      * Primero Java → Odoo, luego Odoo → Java.
      */
     @Schedule(second = "30", minute = "*", hour = "*", persistent = false) // cada 1 minutos
