@@ -1,5 +1,6 @@
 package com.rgb.training.app.controller.mytable;
 
+import com.rgb.training.app.app.DynamicOdooConfig;
 import com.rgb.training.app.controller.odoo.OdooIntegrationControllerMarcaVehicle;
 import com.rgb.training.app.controller.odoo.OdooIntegrationControllerModelVehicle;
 import com.rgb.training.app.data.model.MarcaVehicle;
@@ -8,6 +9,7 @@ import com.rgb.training.app.data.repository.MarcaVehicleJTARepository;
 import com.rgb.training.app.data.repository.ModelVehicleJTARepository;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,17 @@ public class Java2OdooSyncController {
     @EJB
     private ModelVehicleJTARepository modelVehicleRepo;
 
-    public void sync() {
+    public void sync() throws IOException {
+        
+        String url = DynamicOdooConfig.getOdooUrl();
+        String db = DynamicOdooConfig.getDbName();
+        String user = DynamicOdooConfig.getUserId();
+        String pass = DynamicOdooConfig.getPassword();
+
+        System.out.println("[Java2Odoo] Conectando a Odoo en URL: " + url);
+        // Aquí va la lògica de sincronització amb Odoo
+
+        
         try {
             // 🔹 1 - Obtenir dades locals
             List<MarcaVehicle> localMarcas = marcaVehicleRepo.getAll();
@@ -124,7 +136,7 @@ public class Java2OdooSyncController {
                 }
             }
 
-            System.out.println("Sincronització Java → Odoo completada correctament");
+            System.out.println("Sincronització Java → Odoo completada correctament\n");
 
         } catch (Exception e) {
             System.err.println("Error global de sincronització: " + e.getMessage());

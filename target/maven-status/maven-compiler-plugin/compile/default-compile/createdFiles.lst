@@ -1,5 +1,6 @@
 com/rgb/training/app/common/database/PgJpaManagerFactory.class
 com/rgb/training/app/data/model/MarcaVehicle.class
+com/rgb/training/app/app/DynamicOdooConfig.class
 com/rgb/training/app/common/rest/SecurityKeyAuth.class
 com/rgb/training/app/common/odoo/connection/OdooConnection.class
 com/rgb/training/app/boundary/rest/VehiclesJTARepositoryResource.class

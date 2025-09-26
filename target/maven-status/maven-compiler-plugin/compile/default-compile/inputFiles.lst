@@ -17,6 +17,7 @@
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/boundary/rest/MyTableRLRepositoryResource.java
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/boundary/rest/MarcaVehiclesJTARepositoryResource.java
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/controller/odoo/OdooIntegrationController.java
+/home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/app/DynamicOdooConfig.java
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/boundary/soap/parm/MyTableList.java
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/app/ProgrammaticTimer.java
 /home/marccunillera/Documentos/training-app/src/main/java/com/rgb/training/app/common/rest/RestServiceLogging.java

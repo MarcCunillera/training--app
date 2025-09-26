@@ -21,24 +21,23 @@ public class AppScheduledTasks {
 
     @EJB
     private Odoo2JavaSyncController odoo2JavaSync;
-
+    
     /**
      * Sincronización automática cada 30 segons.
      * Primero Java → Odoo, luego Odoo → Java.
      */
-    @Schedule(second = "30", minute = "*", hour = "*", persistent = false) // cada 1 minutos
+
+    @Schedule(second = "30", minute = "*", hour = "*", persistent = false)
     public void automaticTimer() {
         System.out.println("[SYNC] Inicio de sincronización: " + LocalDateTime.now());
         try {
-            // 🔹 1. Java → Odoo
-            System.out.println("[SYNC] Sincronizando Java → Odoo...");
+            System.out.println("[SYNC] Java → Odoo...");
             java2odooSync.sync();
-            System.out.println("[SYNC] Java → Odoo completado.");
+            System.out.println("[SYNC] Java → Odoo completado.\n");
 
-            // 🔹 2. Odoo → Java
-            System.out.println("[SYNC] Sincronizando Odoo → Java...");
+            System.out.println("[SYNC] Odoo → Java...");
             odoo2JavaSync.sync();
-            System.out.println("[SYNC] Odoo → Java completado.");
+            System.out.println("[SYNC] Odoo → Java completado.\n");
 
             System.out.println("[SYNC] Sincronización completa: " + LocalDateTime.now());
         } catch (Exception e) {
