@@ -91,6 +91,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.objectdb</groupId>
+            <artifactId>objectdb-jk</artifactId>
+            <version>2.9.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -151,4 +156,13 @@
             </plugin>
         </plugins>
     </build>
+    
+    
+    <repositories>
+        <repository>
+            <id>objectdb</id>
+            <name>ObjectDB Repository</name>
+            <url>https://m2.objectdb.com</url>
+        </repository>
+    </repositories>
 </project>

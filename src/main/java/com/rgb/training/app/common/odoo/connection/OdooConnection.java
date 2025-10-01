@@ -16,22 +16,20 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 public class OdooConnection {
 
     private static final Object[] EMPTY_PARAMS = new Object[0];
+    private static Object connection;
 
-    private String url;
-    private String db;
-    private String uid;
-    private String pwd;
+    private String url = "";
+    private String db = "";
+    private String uid = "";
+    private String pwd = "";
 
     private XmlRpcClient commonClient;
     private XmlRpcClient objectClient;
 
     public OdooConnection() {
-
     }
-    
-    public OdooConnection(String url, String db, String uid, String pwd) throws MalformedURLException {
 
-        //odoo
+    public OdooConnection(String url, String db, String uid, String pwd) throws MalformedURLException {
         this.url = url;
         this.db = db;
         this.uid = uid;
@@ -106,7 +104,6 @@ public class OdooConnection {
         return Recordset.create(rows);
     }
 
-    //Parlar amb Luis i Eduard
     public Recordset search_read(String model, Values domain, Values fields, Integer offset, Integer maxresult) throws XmlRpcException {
         Values args = Values.create(domain, fields, offset, maxresult);
         Values rows = Values.from(execute_kw(model, "search_read", args));
@@ -123,9 +120,6 @@ public class OdooConnection {
         return Boolean.valueOf(String.valueOf(rows.get(0)));
     }
 
-    /**
-     * Elimina uno o más registros del modelo especificado
-     */
     public Recordset delete(String model, Values ids) throws XmlRpcException {
         Values args = Values.create(ids);
         Values rows = Values.from(execute_kw(model, "unlink", args));
@@ -146,8 +140,6 @@ public class OdooConnection {
         URL rpcUrl = new URL(String.format(endpoint, url));
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
         config.setServerURL(rpcUrl);
-        //config.setEnabledForExtensions(Boolean.TRUE); //Por defecto =False ("server is strictly compliant to the XML-RPC spec")
-        //
         XmlRpcClient client = new XmlRpcClient();
         client.setConfig(config);
         return client;
@@ -165,7 +157,6 @@ public class OdooConnection {
             return false;
         }
 
-        // Execute the unlink method
         Object result = objectClient.execute("execute_kw", Arrays.asList(
                 db,
                 uid,
@@ -182,5 +173,3 @@ public class OdooConnection {
         }
     }
 }
-
-

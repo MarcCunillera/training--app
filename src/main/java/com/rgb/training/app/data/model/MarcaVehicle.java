@@ -19,6 +19,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -47,12 +48,12 @@ public class MarcaVehicle implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "brandId")
     
     @XmlTransient
-    private Collection<Vehicles> vehiclesCollection;
+    private List<Vehicles> vehiclesCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "brandId")
     
     @XmlTransient
-    private Collection<ModelVehicles> modelvehiclesCollection;
+    private List<ModelVehicles> modelvehiclesCollection;
 
     public MarcaVehicle() {
     }
@@ -88,7 +89,7 @@ public class MarcaVehicle implements Serializable {
         return vehiclesCollection;
     }
 
-    public void setVehiclesCollection(Collection<Vehicles> vehiclesCollection) {
+    public void setVehiclesCollection(List<Vehicles> vehiclesCollection) {
         this.vehiclesCollection = vehiclesCollection;
     }
 
@@ -98,7 +99,7 @@ public class MarcaVehicle implements Serializable {
         return modelvehiclesCollection;
     }
 
-    public void setModelvehiclesCollection(Collection<ModelVehicles> modelvehiclesCollection) {
+    public void setModelvehiclesCollection(List<ModelVehicles> modelvehiclesCollection) {
         this.modelvehiclesCollection = modelvehiclesCollection;
     }
 

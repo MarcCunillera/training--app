@@ -21,6 +21,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -49,7 +50,7 @@ public class ModelVehicles implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "modelId")
     
     @XmlTransient
-    private Collection<Vehicles> vehiclesCollection;
+    private List<Vehicles> vehiclesCollection;
     
     @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
@@ -89,7 +90,7 @@ public class ModelVehicles implements Serializable {
         return vehiclesCollection;
     }
 
-    public void setVehiclesCollection(Collection<Vehicles> vehiclesCollection) {
+    public void setVehiclesCollection(List<Vehicles> vehiclesCollection) {
         this.vehiclesCollection = vehiclesCollection;
     }
 

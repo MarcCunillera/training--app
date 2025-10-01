@@ -177,7 +177,7 @@ public class OdooIntegrationController {
     synchronized OdooConnection odoo() throws Exception {
         if (this.odooConnection == null) {
             try {
-                this.odooConnection = new OdooConnection(CustomConfig.ODOO_URL, CustomConfig.ODOO_DB_NAME, CustomConfig.ODOO_USER_ID, CustomConfig.ODOO_PASSWORD);
+                this.odooConnection = new OdooConnection(CustomConfig.getODOO_URL(), CustomConfig.getODOO_DB_NAME(), CustomConfig.getODOO_USER_ID(), CustomConfig.getODOO_PASSWORD());
             } catch (Exception error) {
                 System.out.println("Can't create Odoo connection.");
                 error.printStackTrace();

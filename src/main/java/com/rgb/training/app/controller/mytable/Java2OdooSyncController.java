@@ -1,6 +1,5 @@
 package com.rgb.training.app.controller.mytable;
 
-import com.rgb.training.app.app.DynamicOdooConfig;
 import com.rgb.training.app.controller.odoo.OdooIntegrationControllerMarcaVehicle;
 import com.rgb.training.app.controller.odoo.OdooIntegrationControllerModelVehicle;
 import com.rgb.training.app.data.model.MarcaVehicle;
@@ -28,17 +27,7 @@ public class Java2OdooSyncController {
     @EJB
     private ModelVehicleJTARepository modelVehicleRepo;
 
-    public void sync() throws IOException {
-        
-        String url = DynamicOdooConfig.getOdooUrl();
-        String db = DynamicOdooConfig.getDbName();
-        String user = DynamicOdooConfig.getUserId();
-        String pass = DynamicOdooConfig.getPassword();
-
-        System.out.println("[Java2Odoo] Conectando a Odoo en URL: " + url);
-        // Aquí va la lògica de sincronització amb Odoo
-
-        
+    public void sync() throws IOException {   
         try {
             // 🔹 1 - Obtenir dades locals
             List<MarcaVehicle> localMarcas = marcaVehicleRepo.getAll();
