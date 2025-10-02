@@ -39,5 +39,6 @@ com/rgb/training/app/boundary/viewbeans/TestViewBean.class
 com/rgb/training/app/boundary/rest/MyTableRLRepositoryResource.class
 com/rgb/training/app/boundary/rest/MyTableJTARepositoryResource.class
 com/rgb/training/app/boundary/rest/MarcaVehiclesJTARepositoryResource.class
+com/rgb/training/app/config/ObjectDB.class
 com/rgb/training/app/common/rest/RestServiceLogging.class
 com/rgb/training/app/controller/mytable/Odoo2JavaSyncController.class
