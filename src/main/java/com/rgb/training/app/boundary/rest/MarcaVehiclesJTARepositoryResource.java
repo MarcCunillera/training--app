@@ -8,6 +8,12 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
+/**
+ * REST Client: http://localhost:8081/training-app/api/jta/marcavehicle/
+ *
+ * @author MarcCunilleraCases
+ */
+
 @Path("jta/marcavehicle")
 @Produces(MediaType.APPLICATION_JSON)
 public class MarcaVehiclesJTARepositoryResource {

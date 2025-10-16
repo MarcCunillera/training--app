@@ -34,7 +34,7 @@ public class ModelVehiclesJTARepositoryResource {
 
     @Inject
     private ModelVehicleJTARepository ModelVehiclesRepo;
-    
+
     @HEAD
     public Response headDefault() {
         return Response.status(Response.Status.OK).build();
@@ -64,8 +64,8 @@ public class ModelVehiclesJTARepositoryResource {
             return Response.status(Response.Status.CREATED).entity(result).build();
         }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("No s'ha pogut crear el registre.")
-                        .build();
+                .entity("No s'ha pogut crear el registre.")
+                .build();
     }
 
     @PUT

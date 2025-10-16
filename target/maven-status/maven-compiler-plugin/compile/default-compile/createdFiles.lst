@@ -7,6 +7,7 @@ com/rgb/training/app/boundary/soap/parm/MyTableList.class
 com/rgb/training/app/controller/mytable/Java2OdooSyncController.class
 com/rgb/training/app/common/rest/SecurityKeyAuthorizer.class
 com/rgb/training/app/data/model/ModelVehicles.class
+com/rgb/training/app/boundary/jsf/RestClientBean.class
 com/rgb/training/app/app/AutoInit.class
 com/rgb/training/app/common/odoo/model/OdooModelVehicle.class
 com/rgb/training/app/common/odoo/utils/DataTypeParser.class
@@ -38,6 +39,7 @@ com/rgb/training/app/common/odoo/types/Domain.class
 com/rgb/training/app/boundary/viewbeans/TestViewBean.class
 com/rgb/training/app/boundary/rest/MyTableRLRepositoryResource.class
 com/rgb/training/app/boundary/rest/MyTableJTARepositoryResource.class
+com/rgb/training/app/boundary/jsf/LoginBean.class
 com/rgb/training/app/boundary/rest/MarcaVehiclesJTARepositoryResource.class
 com/rgb/training/app/config/ObjectDB.class
 com/rgb/training/app/common/rest/RestServiceLogging.class

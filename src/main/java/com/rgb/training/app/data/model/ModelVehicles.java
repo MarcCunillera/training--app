@@ -55,7 +55,7 @@ public class ModelVehicles implements Serializable {
     @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private MarcaVehicle brandId;
-
+    
     public ModelVehicles() {
     }
 

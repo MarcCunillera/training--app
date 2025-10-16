@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="Plantilla.xhtml">
+
+    <ui:define name="title">REST Client - Training App</ui:define>
+
+    <ui:define name="content">
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{restClientBean.redirectIfNotLoggedIn}" />
+        </f:metadata>
+
+        <!-- Botón Logout -->
+        <h:form id="logoutForm" class="mb-4">
+            <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="btn btn-outline-danger" />
+        </h:form>
+
+        <!-- Formulario principal REST -->
+        <h:form id="restForm">
+            <h1 class="mb-4 text-center">REST Client</h1>
+
+            <!-- Selección de tabla y operación -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h:outputLabel value="Tabla:" for="tableSelect" />
+                    <h:selectOneMenu id="tableSelect" value="#{restClientBean.selectedTable}" styleClass="form-select">
+                        <f:selectItem itemValue="marcavehicle" itemLabel="Marca Vehicle"/>
+                        <f:selectItem itemValue="modelvehicles" itemLabel="Model Vehicles"/>
+                        <f:ajax render="formPostPut" />
+                    </h:selectOneMenu>
+                </div>
+                <div class="col-md-6">
+                    <h:outputLabel value="Operación:" for="opSelect" />
+                    <h:selectOneMenu id="opSelect" value="#{restClientBean.selectedOp}" styleClass="form-select">
+                        <f:selectItem itemValue="get" itemLabel="GET ALL"/>
+                        <f:selectItem itemValue="post" itemLabel="POST"/>
+                        <f:ajax render="formPostPut" />
+                    </h:selectOneMenu>
+                </div>
+            </div>
+
+            <!-- Botón Ejecutar -->
+            <div class="d-grid mb-4">
+                <h:commandButton value="Ejecutar" action="#{restClientBean.execute}" styleClass="btn btn-primary" />
+            </div>
+
+            <!-- Formulario POST -->
+            <h:panelGroup id="formPostPut">
+                <h:panelGroup rendered="#{restClientBean.selectedOp eq 'post'}">
+
+                    <!-- MarcaVehicle -->
+                    <h:panelGroup rendered="#{restClientBean.selectedTable eq 'marcavehicle'}" layout="block">
+                        <div class="mb-3">
+                            <h:outputLabel value="Brand Name:" styleClass="form-label fw-semibold" />
+                            <h:inputText value="#{restClientBean.marcaName}" styleClass="form-control" />
+                        </div>
+                    </h:panelGroup>
+
+                    <!-- ModelVehicles -->
+                    <h:panelGroup rendered="#{restClientBean.selectedTable eq 'modelvehicles'}" layout="block">
+                        <div class="mb-3">
+                            <h:outputLabel value="Model Name:" styleClass="form-label fw-semibold" />
+                            <h:inputText value="#{restClientBean.modelName}" styleClass="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <h:outputLabel value="Brand ID:" styleClass="form-label fw-semibold" />
+                            <h:inputText value="#{restClientBean.modelBrandId}" styleClass="form-control" />
+                        </div>
+                    </h:panelGroup>
+
+                </h:panelGroup>
+            </h:panelGroup>
+
+            <!-- Resultados GET ALL y operaciones PUT/DELETE desde la tabla -->
+            <h:panelGroup rendered="#{not empty restClientBean.resultList}">
+                <h2 class="mt-5">Resultats</h2>
+                <div class="table-responsive">
+                    <h:dataTable value="#{restClientBean.resultList}" var="item" styleClass="table table-striped table-bordered text-center">
+
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                                #{item.id}
+                        </h:column>
+
+                        <!-- MarcaVehicle -->
+                        <h:column rendered="#{restClientBean.selectedTable eq 'marcavehicle'}">
+                            <f:facet name="header">Brand Name</f:facet>
+                            <h:panelGroup rendered="#{restClientBean.editingId ne item.id}">
+                                #{item.brandName}
+                            </h:panelGroup>
+                            <h:inputText value="#{item.brandName}" rendered="#{restClientBean.editingId eq item.id}" styleClass="form-control"/>
+                        </h:column>
+
+                        <!-- ModelVehicles -->
+                        <h:column rendered="#{restClientBean.selectedTable eq 'modelvehicles'}">
+                            <f:facet name="header">Model Name</f:facet>
+                            <h:panelGroup rendered="#{restClientBean.editingId ne item.id}">
+                                #{item.modelName}
+                            </h:panelGroup>
+                            <h:inputText value="#{item.modelName}" rendered="#{restClientBean.editingId eq item.id}" styleClass="form-control"/>
+                        </h:column>
+
+                        <h:column rendered="#{restClientBean.selectedTable eq 'modelvehicles'}">
+                            <f:facet name="header">Brand ID</f:facet>
+                            <h:panelGroup rendered="#{restClientBean.editingId ne item.id}">
+                                #{item.brandId.id}
+                            </h:panelGroup>
+                            <h:inputText value="#{item.brandId.id}" rendered="#{restClientBean.editingId eq item.id}" styleClass="form-control"/>
+                        </h:column>
+
+                        <!-- Acciones -->
+                        <h:column>
+                            <f:facet name="header">Accions</f:facet>
+
+                            <!-- Quan NO estem editant -->
+                            <h:panelGroup rendered="#{restClientBean.editingId ne item.id}">
+                                <h:commandButton value="Editar"
+                                                 action="#{restClientBean.startEditing(item)}"
+                                                 styleClass="btn btn-sm btn-info me-2 text-white">
+                                    <!-- Només refresca la taula per mostrar els inputs -->
+                                    <f:ajax execute="@this" render="@form" />
+                                </h:commandButton>
+
+                                <h:commandButton value="Eliminar"
+                                                 action="#{restClientBean.deleteItem(item)}"
+                                                 styleClass="btn btn-sm btn-danger"
+                                                 onclick="return confirm('¿Seguro que deseas eliminar este registro?');">
+                                    <!-- Només cal processar el botó i refrescar la taula -->
+                                    <f:ajax execute="@this" render="@form" />
+                                </h:commandButton>
+                            </h:panelGroup>
+
+                            <!-- Quan SÍ estem editant -->
+                            <h:panelGroup rendered="#{restClientBean.editingId eq item.id}">
+                                <h:commandButton value="Guardar"
+                                                 action="#{restClientBean.saveEdit(item)}"
+                                                 styleClass="btn btn-sm btn-success me-2">
+                                    <!-- 🔥 Clau: processar tot el formulari per enviar inputs -->
+                                    <f:ajax execute="@form" render="@form" />
+                                </h:commandButton>
+
+                                <h:commandButton value="Cancelar"
+                                                 action="#{restClientBean.cancelEdit}"
+                                                 styleClass="btn btn-sm btn-secondary">
+                                    <f:ajax execute="@this" render="@form" />
+                                </h:commandButton>
+                            </h:panelGroup>
+                        </h:column>
+
+                    </h:dataTable>
+                </div>
+            </h:panelGroup>
+
+            <!-- Resultado de mensaje -->
+            <h:panelGroup rendered="#{not empty restClientBean.result}">
+                <div class="alert alert-info mt-4" role="alert">
+                    <h:outputText value="#{restClientBean.result}" />
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+
+    </ui:define>
+</ui:composition>
